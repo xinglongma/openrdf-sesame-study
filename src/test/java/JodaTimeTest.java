@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
@@ -6,5 +8,13 @@
  * To change this template use File | Settings | File Templates.
  */
 public class JodaTimeTest {
+
+    public void testMonth(){
+        nothing nothing1=new nothing();
+        int result1=  nothing1.getMonth();
+        assertEquals(3, result1);
+        int result2= nothing1.changeMonth();
+        assertEquals(6, result2) ;
+    }
 
 }
