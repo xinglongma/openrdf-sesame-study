@@ -19,12 +19,6 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-        <dependency>
-            <groupId>org.openrdf</groupId>
-            <artifactId>sesame</artifactId>
-            <version>1.2.7</version>
-        </dependency>
-
 
     </dependencies>
 </project>
