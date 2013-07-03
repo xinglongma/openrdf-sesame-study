@@ -9,13 +9,16 @@ import org.joda.time.DateTime;
  */
 public class nothing {
 
-    DateTime dt = new DateTime(2005, 3, 26, 12, 0, 0, 0);
-    public int getMonth(){
+    DateTime dt = new DateTime(2005, 4, 26, 12, 0, 0, 0);
+
+    public int getMonth() {
         return dt.getMonthOfYear();
     }
-    public int changeMonth (){
-        return     dt.plusMonths(3).getMonthOfYear();
+
+    public int changeMonth() {
+        return dt.plusMonths(3).getMonthOfYear();
     }
+
     public static void main(String[] args) {
 
         System.out.println(new nothing().getMonth());
