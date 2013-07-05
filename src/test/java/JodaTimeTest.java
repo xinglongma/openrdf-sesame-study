@@ -14,8 +14,8 @@ public class JodaTimeTest {
     public void testMonth() {
         nothing nothing1 = new nothing();
         int result1 = nothing1.getMonth();
-        assertEquals(3, result1);
+        assertEquals(4, result1);
         int result2 = nothing1.changeMonth();
-        assertEquals(6, result2);
+        assertEquals(7, result2);
     }
 }
