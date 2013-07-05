@@ -1,6 +1,4 @@
 import org.junit.Test;
-import org.openrdf.OpenRDFException;
-import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
@@ -10,7 +8,9 @@ import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.rio.RDFFormat;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,41 +21,28 @@ import java.io.IOException;
  */
 public class ImportN3Test {
     @Test
-    public void testN3 (){
-         Repository repo=new CreateRepository1().createMemoryRepository();
+    public void testN3() throws Exception {
+        Repository repo = new CreateRepository1().createMemoryRepository();
 
-        File file=new File("../resource/data/sample.n3");
-        String baseURI="http://example.org/example/local";
+        URL url = Thread.currentThread().getContextClassLoader().getResource("data/sample.n3");
+        File file = new File(url.getPath());
+        String baseURI = "http://example.org/example/local";
+
+        RepositoryConnection con = repo.getConnection();
+        TupleQueryResult result = null;
         try {
-
-
-            RepositoryConnection con =repo.getConnection();
-            try{
-                con.add(file, baseURI, RDFFormat.N3);
-                String queryString="SELECT ?x ?y WHERE {?x ?p ?y}";
-                TupleQuery tupleQuery=con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
-                TupleQueryResult result=tupleQuery.evaluate();
-                try{
-                    BindingSet bindingSet= result.next();
-                    Value valueOfX=bindingSet.getValue("x");
-                    Value valueOfY=bindingSet.getValue("y");
-                }
-                finally {
-                            result.close();
-                }
-
-
-            }
-            finally{
-                con.close();
-            }
-        }
-
-        catch (OpenRDFException e){
-            //handle exception
-        }
-        catch (IOException e){
-            //handle io exception
+            con.add(file, baseURI, RDFFormat.N3);
+            String queryString = "SELECT ?x ?y WHERE {?x ?p ?y}";
+            TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
+            result = tupleQuery.evaluate();
+            BindingSet bindingSet = result.next();
+            String expectedX = "http://example.org/example/gedcom-relations.n3#Goedele";
+            String expectedY = "http://example.org/example/gedcom-relations.n3#dt";
+            assertEquals("The subject of the first record should be" + expectedX, expectedX, bindingSet.getValue("x").stringValue());
+            assertEquals("The object of the first record should be" + expectedY, expectedY, bindingSet.getValue("y").stringValue());
+        } finally {
+            result.close();
+            con.close();
         }
     }
 }
