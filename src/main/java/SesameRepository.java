@@ -1,5 +1,6 @@
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.http.HTTPRepository;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.sail.memory.MemoryStore;
 
@@ -21,5 +22,16 @@ public class SesameRepository {
             e.printStackTrace();
         }
          return (repo);
+    }
+    public Repository accessRemoteRepository (String sesameServer, String repositoryID){
+         Repository repo= new HTTPRepository(sesameServer, repositoryID);
+         try {
+             repo.initialize();
+         }
+         catch (RepositoryException e){
+             System.out.println("***************fail to access remote Repository via HTTP***************");
+             e.printStackTrace();
+         }
+        return (repo);
     }
 }

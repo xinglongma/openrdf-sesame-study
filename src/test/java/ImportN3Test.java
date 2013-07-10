@@ -45,4 +45,23 @@ public class ImportN3Test {
             con.close();
         }
     }
+    public void testServerRepository() throws Exception {
+        Repository repo2 = new SesameRepository().accessRemoteRepository("http://localhost:8080/openrdf-sesame", "testUni1");
+
+        RepositoryConnection con2 = repo2.getConnection();
+        TupleQueryResult result2 = null;
+        try {
+            String queryString2 = "SELECT ?x ?y WHERE {?x ?p ?y}";
+            TupleQuery tupleQuery2 = con2.prepareTupleQuery(QueryLanguage.SPARQL, queryString2);
+            result2 = tupleQuery2.evaluate();
+            BindingSet bindingSet = result2.next();
+            String expectedX = "http://example.org/example/gedcom-relations.n3#Goedele";
+            String expectedY = "http://example.org/example/gedcom-relations.n3#dt";
+            assertEquals("The subject of the first record should be" + expectedX, expectedX, bindingSet.getValue("x").stringValue());
+            assertEquals("The object of the first record should be" + expectedY, expectedY, bindingSet.getValue("y").stringValue());
+        } finally {
+            result2.close();
+            con2.close();
+        }
+    }
 }
