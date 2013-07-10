@@ -10,14 +10,14 @@ import org.openrdf.sail.memory.MemoryStore;
  * Time: 11:30
  * To change this template use File | Settings | File Templates.
  */
-public class CreateRepository1 {
+public class SesameRepository {
    public Repository createMemoryRepository(){
         Repository repo=new SailRepository(new MemoryStore());
         try {
             repo.initialize();
         }
         catch (RepositoryException e){
-            System.out.println("***************didn't initialized***************");
+            System.out.println("***************fail to create a new memory repository***************");
             e.printStackTrace();
         }
          return (repo);

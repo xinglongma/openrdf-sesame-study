@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class ImportN3Test {
     @Test
     public void testN3() throws Exception {
-        Repository repo = new CreateRepository1().createMemoryRepository();
+        Repository repo = new SesameRepository().createMemoryRepository();
 
         URL url = Thread.currentThread().getContextClassLoader().getResource("data/sample.n3");
         File file = new File(url.getPath());
