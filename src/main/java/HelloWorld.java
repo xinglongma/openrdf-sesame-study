@@ -1,3 +1,4 @@
+import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
@@ -23,13 +24,30 @@ public class HelloWorld {
 
          **/
         //another example with more elements.
-        Element root = new Element("Fibonacci_Numbers");
+
         Integer num1 = new Integer(0);
         Integer num2 = new Integer(0);
+        String namespace="http://www.w3.org/1998/Math/MathML";
+        Element root = new Element("mathml:Fibonacci_Numbers", namespace);
+
         for (int i = 0; i <= 10; i++) {
-            Element fibonacci = new Element("Fibonacci");
-            fibonacci.appendChild(num2.toString());
+            Element fibonacci = new Element("mathml:Fibonacci", namespace);
+            Element fibi = new Element("mathml:Fibi", namespace);
+            Element fibo = new Element("mathml:Fibo", namespace);
+            Element fibn = new Element("mathml:Fibn", namespace);
+            fibonacci.appendChild(fibi);
+            fibonacci.appendChild(fibo);
+            fibonacci.appendChild(fibn);
+
+            fibi.appendChild("f("+i+")");
+            fibo.appendChild("=");
+            fibn.appendChild(num2.toString());
+
+            Attribute index=new Attribute("Index", String.valueOf(i));
+            fibonacci.addAttribute(index);
             root.appendChild(fibonacci);
+
+
             if (num2.intValue() == 0) {
                 num1 = Integer.valueOf(num2.intValue() + 1);
             }
@@ -45,7 +63,6 @@ public class HelloWorld {
             serializer.write(doc);
         } catch (IOException ex) {
             System.out.println(ex);
-
         }
     }
 }
